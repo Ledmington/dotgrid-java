@@ -1,7 +1,5 @@
 plugins {
-	id 'java'
-	id 'application'
-	id 'org.openjfx.javafxplugin' version '0.1.0'
+	id 'java-library'
 	id 'com.diffplug.spotless' version '6.23.0'
 	id 'com.github.ben-manes.versions' version '0.50.0'
 	id 'com.adarshr.test-logger' version '4.0.0'
@@ -45,21 +43,12 @@ java {
 	}
 }
 
-javafx {
-	version = "21.0.1"
-	modules = [ 'javafx.controls' ]
-}
-
 tasks.withType(JavaCompile).configureEach {
 	options.compilerArgs << '-Xdiags:verbose'
 	options.compilerArgs << '-Xlint:all'
 	options.compilerArgs << '-Werror'
 	options.deprecation = true
 	options.encoding = 'UTF-8'
-}
-
-application {
-	mainClass = 'com.ledmington.dotgrid.Main'
 }
 
 tasks.named('test') {
@@ -113,28 +102,3 @@ spotless {
 }
 
 tasks.compileJava.dependsOn(spotlessApply)
-
-tasks.register('fatJar', Jar) {
-	group 'distribution'
-	description 'Builds the fat jar of the application'
-	from sourceSets.main.output
-	dependsOn configurations.runtimeClasspath
-	from {
-		configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
-	}
-	duplicatesStrategy = 'include'
-	manifest {
-		archiveBaseName = appNameLowercase
-		attributes(
-				//"Implementation-Title": "Gradle",
-				"Implementation-Version": version,
-				"Main-Class": "$mainClassName"
-		)
-	}
-	archiveBaseName = "${fatJarBaseName}"
-
-	doLast {
-		println "The fat jar is ${fatJarPath}"
-		println String.format("Fat jar size: %.3f MB", new File(fatJarPath).length() / 1_000_000)
-	}
-}
