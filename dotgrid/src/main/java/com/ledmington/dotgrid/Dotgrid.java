@@ -17,7 +17,8 @@
 */
 package com.ledmington.dotgrid;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Toolkit;
 import java.io.Serial;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public final class Dotgrid extends JFrame {
 
         final JMenuBar menu = new JMenuBar();
         final JMenu fileMenu = new JMenu("File");
-        for (String s : List.of("New", "Save", "Open", "Export Vector", "Export Image")) {
+        for (final String s : List.of("New", "Save", "Open", "Export Vector", "Export Image")) {
             final JMenuItem item = new JMenuItem(s);
             item.addActionListener(e -> System.out.println("clicked " + s));
             fileMenu.add(item);
@@ -45,7 +46,7 @@ public final class Dotgrid extends JFrame {
         menu.add(fileMenu);
 
         final JMenu editMenu = new JMenu("Edit");
-        for (String s : List.of("Undo", "Redo")) {
+        for (final String s : List.of("Undo", "Redo")) {
             final JMenuItem item = new JMenuItem(s);
             item.addActionListener(e -> System.out.println("clicked " + s));
             editMenu.add(item);
@@ -53,7 +54,7 @@ public final class Dotgrid extends JFrame {
         menu.add(editMenu);
 
         final JMenu viewMenu = new JMenu("View");
-        for (String s : List.of("Color Picker", "Toggle Grid", "Toggle Tools")) {
+        for (final String s : List.of("Color Picker", "Toggle Grid", "Toggle Tools")) {
             final JMenuItem item = new JMenuItem(s);
             item.addActionListener(e -> System.out.println("clicked " + s));
             viewMenu.add(item);
@@ -61,7 +62,7 @@ public final class Dotgrid extends JFrame {
         menu.add(viewMenu);
 
         final JMenu layersMenu = new JMenu("Layers");
-        for (String s : List.of("Foreground", "Middleground", "Background", "Merge Layers")) {
+        for (final String s : List.of("Foreground", "Middleground", "Background", "Merge Layers")) {
             final JMenuItem item = new JMenuItem(s);
             item.addActionListener(e -> System.out.println("clicked " + s));
             layersMenu.add(item);

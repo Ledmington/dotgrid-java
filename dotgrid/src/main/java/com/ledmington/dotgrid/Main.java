@@ -17,8 +17,41 @@
 */
 package com.ledmington.dotgrid;
 
-public final class Main {
-    public static void main(final String[] args) {
-        new Dotgrid();
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventType;
+import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public final class Main extends Application {
+    @Override
+    public void start(final Stage stage) {
+        final Menu fileMenu = new Menu("File");
+        fileMenu.getItems().add(new MenuItem("New"));
+        fileMenu.getItems().add(new MenuItem("Open"));
+        fileMenu.getItems().add(new MenuItem("Save"));
+        fileMenu.getItems().add(new MenuItem("Save As"));
+        fileMenu.getItems().add(new SeparatorMenuItem());
+        fileMenu.getItems().add(new MenuItem("Export SVG"));
+        fileMenu.getItems().add(new MenuItem("Export PNG"));
+        fileMenu.getItems().add(new SeparatorMenuItem());
+        final MenuItem exitMenuItem = new MenuItem("Exit");
+        exitMenuItem.addEventHandler(EventType.ROOT, e -> Platform.exit());
+        fileMenu.getItems().add(exitMenuItem);
+
+        final MenuBar menubar = new MenuBar();
+        menubar.getMenus().add(fileMenu);
+
+        final VBox vbox = new VBox(menubar);
+
+        final Scene scene = new Scene(vbox, 600, 400);
+        stage.setTitle("Dotgrid");
+        stage.setScene(scene);
+        stage.show();
     }
 }
