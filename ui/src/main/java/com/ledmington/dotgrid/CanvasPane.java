@@ -25,15 +25,20 @@ import javafx.stage.Stage;
 
 public final class CanvasPane extends Pane {
 
+    private static final Color DOT_COLOR = Color.BLACK;
     private final Canvas canvas;
+    private final GraphicsContext gc;
     private final Grid grid;
 
     public CanvasPane(final Stage parent) {
         super();
 
+        this.grid = new Grid(30, 30);
+
         this.setWidth(parent.getWidth());
         this.setHeight(parent.getHeight());
         this.canvas = new Canvas(parent.getWidth(), parent.getHeight());
+        this.gc = canvas.getGraphicsContext2D();
         this.getChildren().add(canvas);
         canvas.widthProperty().bind(this.widthProperty());
         canvas.heightProperty().bind(this.heightProperty());
@@ -42,15 +47,32 @@ public final class CanvasPane extends Pane {
         parent.heightProperty().addListener((observable, oldValue, newValue) -> update());
         parent.fullScreenProperty().addListener((observable, oldValue, newValue) -> update());
 
-        // this.setOnMouseMoved(e -> System.out.printf("%f; %f\n", e.getX(), e.getY()));
+        this.setOnMouseMoved(e -> {
+            final double mouseX = e.getX();
+            final double mouseY = e.getY();
 
-        this.grid = new Grid(30, 30);
+            final double width = canvas.getWidth();
+            final double height = canvas.getHeight();
+
+            final int r = grid.getRows();
+            final int c = grid.getColumns();
+
+            final double paddingX = (width / (double) c) / 2.0;
+            final double paddingY = (height / (double) r) / 2.0;
+
+            final Pair<Double, Double> p = grid.closestPoint(mouseX, mouseY, paddingX, paddingY);
+
+            update();
+
+            final double circleRadius = 10.0;
+            gc.setFill(DOT_COLOR);
+            gc.strokeOval(p.first() - circleRadius / 2.0, p.second() - circleRadius / 2.0, circleRadius, circleRadius);
+        });
     }
 
     private void update() {
         final double width = canvas.getWidth();
         final double height = canvas.getHeight();
-        final GraphicsContext gc = canvas.getGraphicsContext2D();
 
         gc.setFill(Color.LIGHTCYAN);
         gc.fillRect(0.0, 0.0, width, height);
@@ -62,12 +84,12 @@ public final class CanvasPane extends Pane {
         final double paddingY = (height / (double) r) / 2.0;
         final double dotRadius = 2.0;
 
-        gc.setFill(Color.BLACK);
+        gc.setFill(DOT_COLOR);
         for (int i = 0; i < c; i++) {
             final double x = paddingX + ((double) i * 2.0 * paddingX);
             for (int j = 0; j < r; j++) {
                 final double y = paddingY + ((double) j * 2.0 * paddingY);
-                gc.fillOval(x, y, dotRadius, dotRadius);
+                gc.fillOval(x - dotRadius / 2.0, y - dotRadius / 2.0, dotRadius, dotRadius);
             }
         }
     }
