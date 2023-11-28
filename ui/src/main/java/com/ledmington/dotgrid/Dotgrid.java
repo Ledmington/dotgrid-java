@@ -71,9 +71,9 @@ public final class Dotgrid extends JFrame {
 
         this.add(menu, BorderLayout.NORTH);
 
-        this.add(new MainCanvas(), BorderLayout.CENTER);
+        // this.add(new MainCanvas(), BorderLayout.CENTER);
 
-        this.add(new ToolBar(), BorderLayout.SOUTH);
+        // this.add(new ToolBar(), BorderLayout.SOUTH);
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

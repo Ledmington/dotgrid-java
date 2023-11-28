@@ -17,4 +17,24 @@
 */
 package com.ledmington.dotgrid;
 
-public final class Grid {}
+public final class Grid {
+
+    private final int rows;
+    private final int columns;
+
+    public Grid(int r, int c) {
+        if (r < 1 || c < 1) {
+            throw new IllegalArgumentException(String.format("Cannot create a Grid %,dx%,d", r, c));
+        }
+        this.rows = r;
+        this.columns = c;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+}

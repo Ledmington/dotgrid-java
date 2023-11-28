@@ -25,7 +25,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public final class Main extends Application {
@@ -47,9 +47,11 @@ public final class Main extends Application {
         final MenuBar menubar = new MenuBar();
         menubar.getMenus().add(fileMenu);
 
-        final VBox vbox = new VBox(menubar);
+        final BorderPane root = new BorderPane();
+        root.setTop(menubar);
+        root.setCenter(new CanvasPane(stage));
 
-        final Scene scene = new Scene(vbox, 600, 400);
+        final Scene scene = new Scene(root, 800, 600);
         stage.setTitle("Dotgrid");
         stage.setScene(scene);
         stage.show();
